@@ -1,0 +1,67 @@
+<header class="p-3 bg-disable text-dark sticky-top ">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a class="navbar-brand" href="#">
+        <img src="https://cdn-icons-png.flaticon.com/512/45/45605.png" alt="" width="80" height="80">
+      </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="#" class="nav-link px-2 text-dark">მთავარი</a></li>
+        <li><a href="#" class="nav-link px-2 text-dark">მენიუ</a></li>
+      </ul>
+      <div *ngFor="let user of user">
+        <p *ngIf="isloged()" class="text-success me-2">Welcome/a/e: {{user.userName}}</p>
+      </div>
+      <button *ngIf="!isloged()" data-bs-toggle="modal" data-bs-target="#myModal" type="button"
+        class="active btn btn-success tooltips" data-placement="top" data-toggle="tooltip">Login</button>
+
+      <button *ngIf="isloged()" (click)="handleClear()" (click)="auth.logoutUser()" type="button"
+        class=" btn btn-danger  tooltips" data-placement="top" data-toggle="tooltip">Logout</button>
+</div>
+  </div>
+</header>
+<div class="modal fade bd-example-modal-lg" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius: 20px">
+      <div class="modal-header">
+        <h5 class="modal-title">შესვლა</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form" class="m-5" (ngSubmit)="onEnviar($event)">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label">მეილი</label>
+            <input formControlName="email" [ngClass]="{
+                'is-invalid': Email?.errors && Email?.touched,
+                'is-valid': !Email?.errors && Email?.touched
+              }" type="email" class="form-control" id="exampleFormControlInput1" placeholder="email" autocomplete="off"
+              required />
+            <div *ngIf="Email?.errors && Email?.touched">
+              <p *ngIf="Email?.hasError('required')" class="text-danger">
+                საჭიროა მეილის შეყვანა
+              </p>
+              <p *ngIf="Email?.hasError('email')" class="text-danger">
+                ელ.ფოსტის ფორმატი უნდა იყოს მოქმედი
+              </p>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">პაროლი</label>
+            <input
+              [ngClass]="{'is-invalid': Password?.errors && Password?.touched, 'is-valid': !Password?.errors && Password?.touched}"
+              formControlName="password" type="password" class="form-control" id="exampleInputPassword1"
+              placeholder="password" autocomplete="off" required />
+            <div *ngIf="Password?.errors && Password?.touched">
+              <p *ngIf="Password?.hasError('required')" style="color: black" class="text-danger">
+                საჭიროა პაროლის შეყვანა
+              </p>
+            </div>
+          </div>
+          <button id="btnCerrar" type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+            შესვლა
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
